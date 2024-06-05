@@ -1,26 +1,21 @@
 # -*- coding: utf-8 -*-
+
 """
+--- Step 3 ---
 Created on Tue Aug 24 16:47:23 2021
+@author: R. Naudascher
 
-@author: Naudascher
+Goal: Pipeline to stitch and rotate images of one Experiment based on prederived params (from step_1 and step_2)
+Input: raw .tif image streams from two cams that were recording instantaneously (i.e. synchronized in time and at framerate of 15 fps)
+Output: stitched, rotated, cropped .tif stack for each experiment
+
 """
-
-# RN: 30/01/2020 adapted 24.08.2021
-
-# Input: raw .tif image streams from two cams that were recording instantaneously.
-# Goal: Pipeline converting .tif images of one Experiment
-# Run after step_1 and step_2
-# stitch and crop based on prederived params (from step_1 and step_2)
-
-# Output: stitched, rotated, cropped .tif stack
 
 import cv2
 import numpy as np
 import os
 
-
-# -----  INPUT  -------
-
+# -----  SELCET Fish batch to process  -------
 
 batch_1_wild = False
 batch_2_wild = False
@@ -28,7 +23,7 @@ batch_3_wild = False
 batch_1_hatchery = True
 batch_2_hatchery = False
 
-# run this for one day only and use parallel threats if needed!
+# run this for one day only. run in parallel to increase speed
 
 """
 date = '21_07'
