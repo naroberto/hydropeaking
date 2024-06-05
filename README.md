@@ -25,7 +25,7 @@ Subtract the median background for base and peak flows and store the results.
 Subdivide the sequence of pre-processed images into .mp4 videos for experimental phases: acclim, up_1, p_1, d_1, b_1, up_2, p_2, d_2, b_1, up_3, p_3, d_3, b_3. 
 Check the timing of phases and run it for b_2 and all experiments.
 
-### STEP 5b (step_5_up_down.py) (Alternative Background Subtraction): 
+### STEP 5b (step_5_up_down.py) (Alternative Background Subtraction): 
 If the initial background subtraction method failed because some fish remained stationary for extended periods, causing them to be included in the background. 
 This issue primarily occurred during the ramping phases (up_i, d_i), where short time windows were used to build a median background. 
 However, these short time windows were necessary due to the changing water levels and the associated displacement of background objects caused by refraction.
