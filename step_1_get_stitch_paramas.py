@@ -1,30 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-STEP_1
+---- STEP_1 ----
 pipeline for exp_2020
-
 Created on Mon Aug 23 16:29:02 2021
-
 @author: Naudascher
 
 DESCRIPTION: 
 
-
-# Stitch tiff images together along central area of overlap: 
-# Goal: Create transformation matrix M used for stitching of all the images of an experiment
-# this is done for each day of experiments, the output file will be used for all the other runs on that same day
-
-This code is designed to stitch together TIFF images taken during experiments. 
-Specifically, it creates a transformation matrix M for stitching images of an experiment, which is then used for all images taken on the same day and consecutively loaded in step 2.
-
+This code is designed to stitch together TIFF images along central area of overlap, ensuring that the two images taken at the same time align correctly and can be merged to one image.  
+Specifically, it creates a transformation matrix M for stitching images of an experiment, assuming that the two cameras did not move their orientation. This inconsecutively loaded in step 2.
+The transformation matrix M is created for one pair of images and then used for other images of the same experiment in step 2.
 It is fundamentally based on https://medium.com/analytics-vidhya/image-stitching-with-opencv-and-python-1ebd9e0a6d78
-
-
-More detailed description:
-
-Description:
-The code stitches images together along a central area of overlap, ensuring that the two images taken at the same time align correctly and can be merged to one image.  
-The transformation matrix M is created for one pair of images and then used for other images taken under similar conditions.
 
 ---------- Inputs -----------
 
