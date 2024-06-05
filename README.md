@@ -13,6 +13,10 @@ Next, five or more points are selected along the horizontal shoreline, with the 
 The average rotation angle is then calculated based on these selected points. Using this average rotation angle, the image is rotated. 
 Finally, the rotated image is cropped to the specified dimensions: width = [specify width], height = [specify height].
 
+STEP 3:
+Goal: Pipeline to stitch and rotate images of one Experiment based on prederived params (from step_1 and step_2)
+Input: raw .tif image streams from two cams that were recording instantaneously (i.e. synchronized in time and at framerate of 15 fps)
+Output: stitched, rotated, cropped .tif stack for each experiment
 
 
 
