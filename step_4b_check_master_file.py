@@ -32,22 +32,18 @@ run_length_rough =(6*6 + 6*1) *60
 
 # masterfilepath
 df = pd.read_excel(r'G:\runs_2020\master_files\master_file_2020.xlsx')
+
 if batch_1_wild: 
     experiments = [1,2,3,4,5,6,7,8,9,10]
-    
 if batch_2_wild: 
     experiments = [11,12,13,14,15,16,17,18,19,20,21,22,23,24]
-    
 if batch_3_wild: 
     experiments = [25,26,27,27,28,29,30,31,32,33,34,35,36,37,38,39,40]
-
 if batch_1_hatchery: 
     experiments = [41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69] 
- 
 if batch_2_hatchery: 
     experiments = [70,71,72,73,74,75,76,77,78,79,80,81,82,83,84]
-                   
-                   
+                             
 for exp in experiments: 
     ID = 'exp_' + str(exp)
     exp_props = df[df['ID']==ID]
@@ -66,7 +62,8 @@ for exp in experiments:
         second_line = f.readline()
         #print(first_line)
         print('column order '+ str(ID) +':  ' + second_line)
-    
+
+    # load data
     data = pd.read_csv(varp_path, sep=None, header = None, skiprows = 2, engine='python')
     #print(str(len(data)))
     #print(data)
@@ -89,12 +86,4 @@ for exp in experiments:
     plt.ylabel('variable')
     plt.show()
     if saving: fig.savefig(os.path.join(out_dir,ID + '.png'), format='png', dpi=300) 
-    
-
-        
-    
-    
-
-#%%
-
 
