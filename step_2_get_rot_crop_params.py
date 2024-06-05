@@ -22,8 +22,6 @@ Remraks:
 
 """
 
-
-
 import cv2
 import numpy as np
 import os
@@ -181,7 +179,6 @@ cv2.resizeWindow('rotated_cropped_highflow', width, height)
 cv2.imshow('rotated_cropped_highflow', rotated_crop)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
 cv2.imwrite(rot_crop_tif_out, rotated_crop)
 
 # Set Black stripe
@@ -204,7 +201,6 @@ print('Rotational center/ Reference point in cropped image (x,y) : ', x_R_crop, 
 print('Dimensions of cropped image (width,height) : ', w, ',', h)
 
 ## WRITE TO .txt
-
 outF = open(rot_crop_params_out, "w")
 #for line in [header]: # , basestart]:
 outF = open(rot_crop_params_out, "a")
