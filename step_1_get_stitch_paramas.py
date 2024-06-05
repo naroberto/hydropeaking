@@ -27,15 +27,16 @@ Shift and Cut Parameters (shift_dx, dx_reduced_edge):
 Parameters to adjust the alignment and trimming of images.
 
 --------- Outputs ----------
+
 Transformation Matrix (M_stitch_params.npy): 
 Saved to a file for use in stitching other images.
 
 Intermediate and Final Images: 
-
 matches.tif: Image showing the matched key points used for alignment.
 pre_dist.tif: Pre-processed image before final stitching adjustments.
 stitched.tif: Initial stitched image.
 final_stitched_trimmed.tif: Final stitched and trimmed image.
+
 
 """
 
