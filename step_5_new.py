@@ -19,7 +19,6 @@ import cv2
 import os
 
 # -----  INPUT  -----------------------------
-
 check_time_synch = False    # set to False after checking time synch -
 
 # -> open b_2_raw frames in fiji -> actually open the video
@@ -59,7 +58,7 @@ else:
     print('---------------- run for all phases -----------------')
     print('----write videos to:  ',out_dir_video)
 
-# -------------------------------------------------------CONSTANTS------------------------------------
+# -----------------CONSTANTS----------------------
 
 fps = 15                    # the original recording was at 15 fps
 dur_peak_base = 6*60*fps    # [frame ]constant accross all exp
@@ -71,6 +70,8 @@ skip_acclim =    5         # for long stationary discharge we need less frames f
 skip_ramp =      2                                    
 skip_base_peak = 3
 
+# ---------------------------------------------
+# Show some props: 
 print('Sub-phases for ramp background subtraction: --> ', n_phases_ramp_median)
 print('Frames for Median: rough  ramp: -->             ', 1*60*15/n_phases_ramp_median/skip_ramp)
 print('Frames for Median: soft  ramp: -->              ', 3*60*15/n_phases_ramp_median/skip_ramp)
@@ -105,7 +106,6 @@ for _exp in experiments:
     def subtractMedian(start_frame_phase, dur, frame_skip_median, out_dir_phase):
         
         out_vid_raw = cv2.VideoWriter(os.path.join(out_dir_b2_raw,exp + '_' + phase +'_raw.mp4'),cv2.VideoWriter_fourcc(*'mp4v'), 15.0, (width,height),isColor=False)
-        
         list_phase = list_all[start_frame_phase : start_frame_phase + dur]     # contains all frames of period
         list_median = list_phase[0::frame_skip_median]        # Contains all frames for median of that period
         
@@ -117,13 +117,11 @@ for _exp in experiments:
         
         # Grab images for calc of Median
         for i in (list_median):
-        
             if i.endswith(".tif"):
                 img = cv2.imread(os.path.join(in_dir, i))  # Load frame
                 img_grey = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)  # Convert to grayscale
                 frames.append(img_grey)  # Collect all frames
                 count += 1
-                
                 continue
             else:
                 continue
@@ -156,10 +154,8 @@ for _exp in experiments:
                 scale_frame = cor_frame + R_zero
                 scale_frame = np.where(scale_frame < R_min, R_min, scale_frame)
                 scale_frame = np.where(scale_frame > R_max, R_max, scale_frame)
-
                 scale_frame = np.uint8(scale_frame)
-    
-                
+
                 if save_raw_video == True:
                     out_vid_raw.write(frame_grey)
                     
@@ -174,8 +170,6 @@ for _exp in experiments:
 
                 count += 1
                 #print(count)
-                
-        
                 continue
             else:
                 out_vid.release() # release video
@@ -291,7 +285,6 @@ for _exp in experiments:
                 for sub_phase in np.arange(n_phases_ramp_median):
                     start_frame_phase = start_acclim + dur_acclim + dur_dQ + dur_peak_base + sub_phase*dur+ 1
                     subtractMedian(start_frame_phase, dur, frame_skip_median, out_dir_phase)
-               
                 
             if phase == 'd_2':
                 frame_skip_median = skip_ramp
@@ -303,7 +296,6 @@ for _exp in experiments:
                     start_frame_phase = start_acclim + dur_acclim + dur_dQ + dur_peak_base + dur_dQ + dur_peak_base + dur_dQ + dur_peak_base + sub_phase*dur+ 1  
                     subtractMedian(start_frame_phase, dur, frame_skip_median, out_dir_phase)
                            
-               
             if phase == 'd_3':
                 frame_skip_median = skip_ramp
                 dur = int(dur_dQ/n_phases_ramp_median) # Here we subdivide the phase into 3 subphases for which we derive their individual background!!!
@@ -313,8 +305,6 @@ for _exp in experiments:
                 for sub_phase in np.arange(n_phases_ramp_median):
                     start_frame_phase = start_acclim + dur_acclim + dur_dQ + dur_peak_base + dur_dQ + dur_peak_base + dur_dQ + dur_peak_base  + dur_dQ + dur_peak_base + dur_dQ + dur_peak_base + sub_phase*dur+ 1
                     subtractMedian(start_frame_phase, dur, frame_skip_median, out_dir_phase)
-           
-                
-out_vid.release() # release very last video
+   
+out_vid.release()      # release very last video
 print('-------------------- DONE : script: step_5_new: ' + str(experiments) + str(phases) + ' ----------------- ')
-
