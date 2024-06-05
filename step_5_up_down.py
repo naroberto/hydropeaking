@@ -4,17 +4,24 @@
 Created on Mon Apr  4 14:08:26 2022
 @author: Naudascher
 
-Description: 
-Here we can obtian another video version of up_i and d_i (up and down-ramping phases) that can be used for tracking in case the previous version did not work well
+Description:
+The initial background subtraction method failed because some fish remained stationary for extended periods, causing them to be included in the background. 
+This issue primarily occurred during the ramping phases (up_i, d_i), where short time windows were used to build a median background. 
+However, these short time windows were necessary due to the changing water levels and the associated displacement of background objects caused by refraction.
 
--> use these videos only if you see that the fish is covering itself during the ramp... synchronization with the background recording is not always ideal!!!
+Goals:
+To address this issue, we used a different set of images for the background:
+Here, we create an alternative video version of up_i and d_i (up and down-ramping phases) for tracking, in case the previous version (from step_5_new.py) was ineffective.
+Instead of constructing the background from the median of recorded frames, we used a separately recorded ramp from the same ramping phase but without fish.
 
-# GOALS
-# same as step_5_new.py but for up and down phase, here we want to subtract the background that we recorded because fish otheriese coveres itsel if not moving...
+Comment:
+Only execute this step if the fish is obscuring itself during the output of step_5_new.py.
+Synchronization with the background recording might not be perfect, so verify the results carefully.
 
+Output:
+.mp4 videos
+.tif frame sequence (if needed)
 
-# 2. Output:
-# - .mp4 videos    (and .tiff frame sequence if needed)
 
 """
 import pandas as pd
@@ -47,7 +54,7 @@ save_frames = False # not needed for TRex
 
 # -------------------------------------------------------CONSTANTS------------------------------------
 
-n_phases_ramp_median = 5    #  used 10 should be dividable by 3 , subphases for median backgroudn subtractions in ramps
+n_phases_ramp_median = 5    # used 10 should be dividable by 3 , subphases for median backgroudn subtractions in ramps
 skip_ramp =      1          # or 3    
                             # for long stationary flows we need less frames for the median, use mor if n_phases_ramp_medianis slarger              
                             # These frames will be skipped when calc. the median! (every ith' frame will be used)
