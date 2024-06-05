@@ -1,5 +1,6 @@
 # hydropeaking
 
+### Overview
 # This image processing pipeline prepares raw images from 2 cameras for fish tracking in 'TRex'.
 
 STEP 1  (Stitching Images):
