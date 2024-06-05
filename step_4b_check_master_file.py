@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Jan 19 18:40:39 2022
-
 @author: Naudascher
 
-TO DO: MAKE A NICE PLOT OF ALL OF THESE!
+Goal: PLot hydraulic data
 """
 
 import pandas as pd
