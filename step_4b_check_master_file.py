@@ -3,7 +3,8 @@
 Created on Wed Jan 19 18:40:39 2022
 @author: Naudascher
 
-Goal: PLot hydraulic data
+Goal: Plot hydraulic data. Here we ensured temporal synchronization, between hydraulic data and camera recordings. 
+
 """
 
 import pandas as pd
