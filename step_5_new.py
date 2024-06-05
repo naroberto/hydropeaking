@@ -9,8 +9,8 @@ GOALS:
 - check if the timing of phases is ok, run it for b_2 and all experiments
 
 Output:
-- .mp4 videos
-- .tif frame sequence in suosequent folder structure 
+- .mp4 video of experimental phase, for Tracking.
+- .tif frame sequence in subsequent folder structure 
 
 """
 import pandas as pd
