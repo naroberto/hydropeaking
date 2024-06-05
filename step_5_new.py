@@ -1,35 +1,22 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Aug 24 18:49:20 2021
-
 @author: Naudascher
 
-TO DO:
+GOALS:
+- subtract median background for base and peakflows
+- subdivide pre-processed images into .mp4 videas of our experimental phases: acclim, up_1, p_1, d_1, b_1, up_2, p_2, d_2, b_1, up_3, p_3, d_3, b_3  
+- check if the timing of phases is ok, run it for b_2 and all experiments
 
-    here we get:
-        exp_i_phase_i.mp4     (for tracking) 
-        Median background is subtractes fro subphases as specified below
-        
+Output:
+- .mp4 videos
+- .tif frame sequence in suosequent folder structure 
+
 """
-# GOALS
-# - subdivide into experimetnal phases
-# - subtract median background for base and peakflows
-# - output phrames and .mp4 videos
-# 1. 
-# To check if the timing of phases is ok, run it for b_2 and all experiments
-# and check if the flow is really low for beginning and end
-
-# 2. Output:
-# - .mp4 videos
-# and .tiff frame sequence
-
 import pandas as pd
 import numpy as np
-
-
 import cv2
 import os
-#import pandas as pd
 
 # -----  INPUT  -----------------------------
 
@@ -44,8 +31,7 @@ df = pd.read_excel(r'E:\master_file_2020.xlsx')  # check that the path to frames
 
 # output
 out_dir_video =    r'F:\runs_2020\all_output_vids\all_phases' # output videos all in one folder!!!
-out_dir_b2_raw =   r'F:\runs_2020\all_output_vids\b2_raw'      #output videos all in one folder!!!
-
+out_dir_b2_raw =   r'F:\runs_2020\all_output_vids\b2_raw'     # output videos all in one folder!!!
 
 # ALL EXPERIMENTS: don't process due to a variety of errors:      17, 18, 23, 27, 28, 40
 # total experiments: 78 !!!
@@ -54,7 +40,6 @@ experiments = [14,15,16,19,20,21,22,24, 25, 26] #[63,64,65,66,67,68,69,70,71,72,
               
     # all (groups and individuals):
     #[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,  19,20,21,  22,24, 25, 26,  29,30,31,32,33,34,35,36,37,38,39, 41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84]
-    
     
 if check_time_synch:
     phases = ['b_2'] # check if b_2 is nicely synchronized
@@ -79,19 +64,16 @@ else:
 fps = 15                    # the original recording was at 15 fps
 dur_peak_base = 6*60*fps    # [frame ]constant accross all exp
 n_phases_ramp_median = 5    # should be dividable by 3 , subphases for median backgroudn subtractions in ramps
+codec = 'MP4V'              # codec of output video 
 
-                            # for long stationary flows we need less frames for the median, use mor if n_phases_ramp_medianis slarger              
-skip_acclim =    5                            # These frames will be skipped when calc. the median! (every ith' frame will be used)
-skip_ramp =      2              # or 3                          
+# These frames will be skipped when calc. the median! (every ith' frame will be used), increases speed             
+skip_acclim =    5         # for long stationary discharge we need less frames for the median             
+skip_ramp =      2                                    
 skip_base_peak = 3
 
 print('Sub-phases for ramp background subtraction: --> ', n_phases_ramp_median)
 print('Frames for Median: rough  ramp: -->             ', 1*60*15/n_phases_ramp_median/skip_ramp)
 print('Frames for Median: soft  ramp: -->              ', 3*60*15/n_phases_ramp_median/skip_ramp)
-
-
-# video props
-codec = 'MP4V'
 
 for _exp in experiments: 
     
