@@ -17,7 +17,7 @@ Goal:   Pipeline to stitch and rotate images of one Experiment based on prederiv
 Input:  raw .tif image streams from two cams that were recording instantaneously (i.e. synchronized in time and at framerate of 15 fps)
 Output: stitched, rotated, cropped .tif stack for each experiment
 
-### STEP 4:
+### STEP 4:
 Plot hydraulic data. Here we ensured temporal synchronization, between hydraulic data and camera recordings. 
 
 ### STEP 5 (Background Subtraction and Video Creation):
