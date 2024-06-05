@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Aug 24 19:00:33 2021
-
 @author: Naudascher
-Goal open each varp file and copy path to master excel file
-- mark if data is weird
-- 
+
+open each varp file and copy path to master excel file
+Goal: Display water-depth, and discharge range data during experiments
+
 """
 import pandas as pd
 import matplotlib.pyplot as plt
