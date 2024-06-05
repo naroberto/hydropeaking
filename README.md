@@ -1,14 +1,13 @@
 # hydropeaking
 
-### Overview
-# This image processing pipeline prepares raw images from 2 cameras for fish tracking in 'TRex'.
+## This image processing pipeline prepares raw images from 2 cameras for fish tracking in 'TRex'.
 
-STEP 1  (Stitching Images):
+### STEP 1  (Stitching Images):
 Here we stitch together TIFF images using a central area of overlap, ensuring that the two images taken at the same time align correctly and can be merged into one image.  
 Specifically, we create a transformation matrix M for stitching images of an experiment, assuming that the two cameras did not move their orientation.
 The transformation matrix M is created for one pair of images and then used for other images of the same experiment in step 3.
 
-STEP 2 (Rotation and Cropping): 
+### STEP 2 (Rotation and Cropping): 
 Set the upper left corner of the illuminated arena as the origin for rotation. Select five or more points along the horizontal shoreline, with the downstream direction going to the right. 
 Calculate the average rotation angle based on these points. Rotate the image using this average rotation angle and crop the image to an identical size for all experiments. 
 The center of rotation remains the same for all experiments (x=1850, y=46), ensuring identical positioning across images and experiments.
