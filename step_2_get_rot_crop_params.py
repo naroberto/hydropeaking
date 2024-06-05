@@ -12,7 +12,7 @@ GOALs:
 - Rot. image
 - Crop image to size: width =  ; height =
 
-Remraks: 
+Remarks: 
 - The center of rotation remains identical for all experiments! (x=1850, y=46) its location will therefore be identical on each image. even across experiments.
 - Check opencv version when running this code! -> should be: v 4.5.1.48
 - Adapted from https://www.geeksforgeeks.org/displaying-the-coordinates-of-the-points-clicked-on-the-image-using-python-opencv/
