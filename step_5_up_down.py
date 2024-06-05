@@ -1,21 +1,22 @@
 # -*- coding: utf-8 -*-
 """
+--- STEP 5 alternative ---
 Created on Mon Apr  4 14:08:26 2022
-
 @author: Naudascher
--> here we get another version of up_i and d_i that can be used for tracking in case the previous version did not woek well
--> process up and down-ramp only here !
+
+Description: 
+Here we can obtian another video version of up_i and d_i (up and down-ramping phases) that can be used for tracking in case the previous version did not work well
+
 -> use these videos only if you see that the fish is covering itself during the ramp... synchronization with the background recording is not always ideal!!!
-"""
 
 # GOALS
 # same as step_5_new.py but for up and down phase, here we want to subtract the background that we recorded because fish otheriese coveres itsel if not moving...
 
-# - output frames and .mp4 videos
 
 # 2. Output:
 # - .mp4 videos    (and .tiff frame sequence if needed)
 
+"""
 import pandas as pd
 import numpy as np
 import cv2
@@ -29,10 +30,11 @@ batch_3_wild = False
 df = pd.read_excel(r'G:\runs_2020\master_files\master_file_2020.xlsx')            # input
 out_videos_folder = r'F:\runs_2020\all_output_vids\up_down_synched_background'    # output videos all in one folder!!!
 
-# ALL EXPERIMENTS: WE keep out 17, 18, 23, 27, 28, 40 
-# [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,  19,20,21,  22,24, 25, 26,     29,30,31,32,33,34,35,36,37,38,39,   41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,84]
-experiments =  [67,72] # [70,71,72,73,74,75,76,77,78,79,80,81,82,83,84] #[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,  19,20,21,  22,24, 25, 26,     29,30,31,32,33,34,35,36,37,38,39,   41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69]
+# SELECT EXPERIMENTS: (WE keep out 17, 18, 23, 27, 28, 40)
+experiments =  [67,72] # 
 
+# [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,  19,20,21,  22,24, 25, 26,     29,30,31,32,33,34,35,36,37,38,39,   41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,84]
+# [70,71,72,73,74,75,76,77,78,79,80,81,82,83,84] #[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,  19,20,21,  22,24, 25, 26,     29,30,31,32,33,34,35,36,37,38,39,   41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69]
 # To do: run it for after checdking time synch
 # [70,71,72,73,74,75,76,77,78,79,80,81,82,83,84]
 
@@ -45,9 +47,8 @@ save_frames = False # not needed for TRex
 
 # -------------------------------------------------------CONSTANTS------------------------------------
 
-
-n_phases_ramp_median = 5   #  used 10 should be dividable by 3 , subphases for median backgroudn subtractions in ramps
-skip_ramp =      1             # or 3    
+n_phases_ramp_median = 5    #  used 10 should be dividable by 3 , subphases for median backgroudn subtractions in ramps
+skip_ramp =      1          # or 3    
                             # for long stationary flows we need less frames for the median, use mor if n_phases_ramp_medianis slarger              
                             # These frames will be skipped when calc. the median! (every ith' frame will be used)
 fps = 15                    # the original recording was at 15 fps
@@ -56,14 +57,11 @@ width =  2260
 height = 850                      
 
 # -------------------------------------------------------------------------------------
-
-
 print('Sub-phases for ramp background subtraction: --> ', n_phases_ramp_median)
 print('Frames for Median: rough  ramp: -->             ', 1*60*15/n_phases_ramp_median/skip_ramp)
 print('Frames for Median: soft  ramp: -->              ', 3*60*15/n_phases_ramp_median/skip_ramp)
 
 codec = 'MP4V'  # video props
-
 
 def subtractMedian_up_down(back_start_frame_phase, start_frame_phase, dur, frame_skip_median, out_dir_phase): 
     list_phase = list_all[start_frame_phase : start_frame_phase + dur]     # contains all frames of period
@@ -92,6 +90,7 @@ def subtractMedian_up_down(back_start_frame_phase, start_frame_phase, dur, frame
             continue
         else:
             continue
+          
     #print('frames for Median: ', count)
     # Calculate Median Background
     median = np.median(frames, axis=0).astype(dtype=np.uint8)     #cv2.imshow('median Baseflow', median)  #cv2.waitKey(0)
@@ -246,8 +245,7 @@ for _exp in experiments:
                     print('process phase: '+ phase + ', sub_phase:' + str(sub_phase))                    # the background was always an up-ramp, therefore we start with the end of the background !!!
                     subtractMedian_up_down(back_start_frame_phase, start_frame_phase, dur, frame_skip_median, out_dir_phase)
                     
-               
-                
+
             if phase == 'd_2':
                 frame_skip_median = skip_ramp
                 dur = int(dur_dQ/n_phases_ramp_median) # Here we subdivide the phase into 3 subphases for which we derive their individual background!!!
