@@ -8,9 +8,8 @@ TO DO:
 
     here we get:
         exp_i_phase_i.mp4     (for tracking) 
-        Median background is subtractes fro subphases as specifi9ed belew
+        Median background is subtractes fro subphases as specified below
         
-
 """
 # GOALS
 # - subdivide into experimetnal phases
@@ -79,7 +78,7 @@ else:
 
 fps = 15                    # the original recording was at 15 fps
 dur_peak_base = 6*60*fps    # [frame ]constant accross all exp
-n_phases_ramp_median = 5   # should be dividable by 3 , subphases for median backgroudn subtractions in ramps
+n_phases_ramp_median = 5    # should be dividable by 3 , subphases for median backgroudn subtractions in ramps
 
                             # for long stationary flows we need less frames for the median, use mor if n_phases_ramp_medianis slarger              
 skip_acclim =    5                            # These frames will be skipped when calc. the median! (every ith' frame will be used)
@@ -121,7 +120,6 @@ for _exp in experiments:
     
     list_all = os.listdir(in_dir) # all frames
         
-
     def subtractMedian(start_frame_phase, dur, frame_skip_median, out_dir_phase):
         
         out_vid_raw = cv2.VideoWriter(os.path.join(out_dir_b2_raw,exp + '_' + phase +'_raw.mp4'),cv2.VideoWriter_fourcc(*'mp4v'), 15.0, (width,height),isColor=False)
@@ -129,15 +127,8 @@ for _exp in experiments:
         list_phase = list_all[start_frame_phase : start_frame_phase + dur]     # contains all frames of period
         list_median = list_phase[0::frame_skip_median]        # Contains all frames for median of that period
         
-        #if not os.path.exists(out_dir_phase):
-         #   os.makedirs(out_dir_phase)
-            
         if not os.path.exists(out_vid_path):
             os.makedirs(out_vid_path)
-            
-        #if save_raw_frames:
-         #   if not os.path.exists(out_dir_phase +'_raw'):
-          #      os.makedirs(out_dir_phase +'_raw')
             
         count = 0
         frames = []
@@ -154,6 +145,7 @@ for _exp in experiments:
                 continue
             else:
                 continue
+                
         #print('frames for Median: ', count)
         # Calculate Median Background
         median = np.median(frames, axis=0).astype(dtype=np.uint8)     #cv2.imshow('median Baseflow', median)  #cv2.waitKey(0)
@@ -173,27 +165,18 @@ for _exp in experiments:
             if i.endswith(".tif"):
                 frame = cv2.imread(os.path.join(in_dir, i))
                 
-                # Fre approach
+                # Rescale pixel values 
                 frame_grey = np.array(cv2.cvtColor(np.uint8(frame), cv2.COLOR_RGB2GRAY))
                 frame_grey_ = frame_grey.astype(np.int32)  # enlarge frame
                 cor_frame = np.array(frame_grey_ -  median_grey)  # subtract median
+                
                 # Reshift pixel values tp positive values
                 scale_frame = cor_frame + R_zero
                 scale_frame = np.where(scale_frame < R_min, R_min, scale_frame)
                 scale_frame = np.where(scale_frame > R_max, R_max, scale_frame)
-        
-                # RN
-                # scale_frame = np.where(frame_grey > median_grey, R_max, scale_frame)
-        
+
                 scale_frame = np.uint8(scale_frame)
     
-                # write frame to output folder
-                
-                
-                #if save_raw_frames == True: # or phase == 'b_2': # this is only to check if the phase is synchronzided well
-                 #   cv2.imwrite(os.path.join(out_dir_phase +'_raw', i), frame)
-                    #print(exp + '---> writing raw_frame to--->',out_dir_phase +'_raw')
-                    #print('progress:',count)
                 
                 if save_raw_video == True:
                     out_vid_raw.write(frame_grey)
@@ -202,11 +185,11 @@ for _exp in experiments:
                     cv2.imwrite(os.path.join(out_dir_phase, i), scale_frame)
                     #print(exp + ' ;writing frame: ',count)
                     #print(os.path.join(out_dir_phase, i))
+                
                 # write frame to video
                 if save_video == True: 
                     out_vid.write(scale_frame)#cv2.cvtColor(scale_frame))#, cv2.COLOR_BGR2GRAY))
-                    #print(exp + ', ' + phase + '  ---> writing video to --->',out_dir_video)
-                    #print('progress:',count)
+
                 count += 1
                 #print(count)
                 
