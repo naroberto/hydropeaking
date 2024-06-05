@@ -15,7 +15,7 @@ import cv2
 import numpy as np
 import os
 
-# -----  SELCET Fish batch to process  -------
+# -----  SELECT Fish batch to process  -------
 
 batch_1_wild = False
 batch_2_wild = False
@@ -270,8 +270,6 @@ for exp in experiments:
         M = cv2.getRotationMatrix2D((cX, cY), angle, 1.0)
         # perform the actual rotation and return the image, size of the image wo'nt have changed
         return cv2.warpAffine(img, M, (w,h))
-    
-    
     
     # Don't change
     count = 0
