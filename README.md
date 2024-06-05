@@ -8,13 +8,9 @@ Specifically, we create a transformation matrix M for stitching images of an exp
 The transformation matrix M is created for one pair of images and then used for other images of the same experiment in step 3.
 
 STEP 2 (Rotation and Cropping): 
-- set upper left corner of the illuminated arena as origin for rotation,
-- select 5 or more points along the horizontal shore-line (downstream direction going to the right)
-- calc. the average rotation angle based on this
-- Rot. image
-- Crop image to identical size for all experiments.
-- The center of rotation remains identical for all experiments! (x=1850, y=46) its location will therefore be identical on each image. even across experiments.
-
+Set the upper left corner of the illuminated arena as the origin for rotation. Select five or more points along the horizontal shoreline, with the downstream direction going to the right. 
+Calculate the average rotation angle based on these points. Rotate the image using this average rotation angle and crop the image to an identical size for all experiments. 
+The center of rotation remains the same for all experiments (x=1850, y=46), ensuring identical positioning across images and experiments.
 
 STEP 3 (Stitching and Rotating pipeline):
 Goal:   Pipeline to stitch and rotate images of one Experiment based on prederived params (from step_1 and step_2)
@@ -25,9 +21,9 @@ STEP 4:
 Plot hydraulic data. Here we ensured temporal synchronization, between hydraulic data and camera recordings. 
 
 STEP 5 (Background Subtraction and Video Creation):
-- subtract median background for base and peakflows and store 
-- subdivide sequence of pre-processed images into .mp4 videos of our experimental phases: acclim, up_1, p_1, d_1, b_1, up_2, p_2, d_2, b_1, up_3, p_3, d_3, b_3  
-- check if the timing of phases is ok, run it for b_2 and all experiments
+Subtract the median background for base and peak flows and store the results. 
+Subdivide the sequence of pre-processed images into .mp4 videos for experimental phases: acclim, up_1, p_1, d_1, b_1, up_2, p_2, d_2, b_1, up_3, p_3, d_3, b_3. 
+Check the timing of phases and run it for b_2 and all experiments.
 
 STEP 5b (step_5_up_down.py) (Alternative Background Subtraction): 
 If the initial background subtraction method failed because some fish remained stationary for extended periods, causing them to be included in the background. 
