@@ -38,6 +38,8 @@ stitched.tif: Initial stitched image.
 final_stitched_trimmed.tif: Final stitched and trimmed image.
 
 
+
+
 """
 
 
