@@ -1,6 +1,6 @@
 # hydropeaking
 
-# This is an image processing pipeline which prepares raw images of 2 cameras for fish tracking in 'TRex'.
+This is an image processing pipeline which prepares raw images of 2 cameras for fish tracking in 'TRex'.
 
 STEP 1:
 This code is designed to stitch together TIFF images along central area of overlap, ensuring that the two images taken at the same time align correctly and can be merged to one image.  
@@ -19,12 +19,12 @@ Input: raw .tif image streams from two cams that were recording instantaneously 
 Output: stitched, rotated, cropped .tif stack for each experiment
 
 STEP 4:
-Plot hydraulic data. 
-Here we ensured temporal synchronization, between hydraulic data and camera recordings. 
+Plot hydraulic data. Here we ensured temporal synchronization, between hydraulic data and camera recordings. 
 
 STEP 5:
-
-
+- subtract median background for base and peakflows and store 
+- subdivide sequence of pre-processed images into .mp4 videos of our experimental phases: acclim, up_1, p_1, d_1, b_1, up_2, p_2, d_2, b_1, up_3, p_3, d_3, b_3  
+- check if the timing of phases is ok, run it for b_2 and all experiments
 
 STEP 5: 
 The initial background subtraction method failed because some fish remained stationary for extended periods, causing them to be included in the background. 
