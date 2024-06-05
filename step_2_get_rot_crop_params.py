@@ -1,48 +1,47 @@
 # -*- coding: utf-8 -*-
 """
-STEP_2
+---- STEP_2 -----
 pipeline for exp_2020
 Created on Tue Aug 24 16:04:36 2021
-
 @author: Naudascher
-"""
 
-# adapted from https://www.geeksforgeeks.org/displaying-the-coordinates-of-the-points-clicked-on-the-image-using-python-opencv/
+GOALs:
+- set upper left corner of the illuminated arena as origin for rotation,
+- select 5 or more points along the horizontal shore-line (downstream direction going to the right)
+- calc. the average rotation angle based on this
+- Rot. image
+- Crop image to size: width =  ; height =
 
-# Input: stitched .tif
+Remraks: 
+- The center of rotation remains identical for all experiments! (x=1850, y=46) its location will therefore be identical on each image. even across experiments.
+- Check opencv version when running this code! -> should be: v 4.5.1.48
+- Adapted from https://www.geeksforgeeks.org/displaying-the-coordinates-of-the-points-clicked-on-the-image-using-python-opencv/
+
+# Input:  stitched .tif from step_1
 # Output: rotated and cropped image
 
-# GOAL:
-# - set upper left corner of the illuminated arena as origin for rotation,
-# - select 5 or more points along the horizontal shore-line (downstream direction going to the right)
-# - calc. the average rotation angle based on this
-# - Rot. image
-# - Crop image to size: width =  ; height =
-# Note: The center of rotation remains identical for all experiments! (x=1850, y=46) its location will therefore be identical on each image. even across experiments.
-# Check opencv version when running this code! -> should be: v 4.5.1.48
+"""
+
+
+
 import cv2
 import numpy as np
 import os
 
-
-# -----  INPUT  -------
+# -----  SELECT experiment and Batch  -------
 # Batch_1_wild: 1,3,5,9    (for one run each day, we create crop rot params)
 # Batch_2_wild: 11,14,17,20
 # Batch_3_wild:     25,29,34,39,
-
 # Batch_1_hatchery: 41,45,50,55,59,64,67, DONE
-
 # batch_2_hatchery: 70,75,80 
 
 exp = 80
-
 batch_1_wild = False
 batch_2_wild = False
 batch_3_wild = False
-
 batch_1_hatchery = False
-
 batch_2_hatchery = True
+
 # ---------------------
 
 if batch_1_wild: # on harddisk: 1_Results
@@ -62,10 +61,8 @@ if batch_1_hatchery:
     
 if batch_2_hatchery:
     drive = 'F:'
-        
     
 exp_ID = 'exp_' + str(exp)
-
 
 # Select respective baseflow image for calibration.
 #in_path = r'F:\Batch_1_wild\Exp_1_tiff_analysis\stitched\00001.tif'   # low flow image from this run
@@ -115,8 +112,6 @@ def click_event(event, x, y, flags, params):
             deltaX = x - x_cord[0]
             angle = np.arctan(deltaY / deltaX) * 180 / np.pi
             rot_angle_all.append(angle)
-
-
 
 def rotate_keep_orig_dim(image, angle, cX, cY):  # see also: https://www.pyimagesearch.com/2017/01/02/rotate-images-correctly-with-opencv-and-python/
     # grab the dimensions of the image
