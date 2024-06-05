@@ -4,12 +4,55 @@ STEP_1
 pipeline for exp_2020
 
 Created on Mon Aug 23 16:29:02 2021
-copied form previous version in pycharm
+
 @author: Naudascher
-"""
-# Stitch tiff files together: adapted from: https://medium.com/analytics-vidhya/image-stitching-with-opencv-and-python-1ebd9e0a6d78
-# Goal: Create transformation matrix M used for stitching
+
+DESCRIPTION: 
+
+
+# Stitch tiff images together along central area of overlap: 
+# Goal: Create transformation matrix M used for stitching of all the images of an experiment
 # this is done for each day of experiments, the output file will be used for all the other runs on that same day
+
+This code is designed to stitch together TIFF images taken during experiments. 
+Specifically, it creates a transformation matrix M for stitching images of an experiment, which is then used for all images taken on the same day and consecutively loaded in step 2.
+
+It is fundamentally based on https://medium.com/analytics-vidhya/image-stitching-with-opencv-and-python-1ebd9e0a6d78
+
+
+More detailed description:
+
+Description:
+The code stitches images together along a central area of overlap, ensuring that the two images taken at the same time align correctly and can be merged to one image.  
+The transformation matrix M is created for one pair of images and then used for other images taken under similar conditions.
+
+---------- Inputs -----------
+
+Experiment ID (exp):     
+Determines which set of images to process.
+
+Batch Flags (batch_1_wild, batch_2_wild, batch_3_wild, batch_1_hatchery, batch_2_hatchery): 
+Specify which batch of images to process.
+
+Image Files: 
+Path to the specific images to be stitched, based on the experiment ID and batch flags.
+
+Shift and Cut Parameters (shift_dx, dx_reduced_edge): 
+Parameters to adjust the alignment and trimming of images.
+
+--------- Outputs ----------
+Transformation Matrix (M_stitch_params.npy): 
+Saved to a file for use in stitching other images.
+
+Intermediate and Final Images: 
+
+matches.tif: Image showing the matched key points used for alignment.
+pre_dist.tif: Pre-processed image before final stitching adjustments.
+stitched.tif: Initial stitched image.
+final_stitched_trimmed.tif: Final stitched and trimmed image.
+
+"""
+
 
 import cv2
 import numpy as np
@@ -18,9 +61,11 @@ import os
 import matplotlib.pyplot as plt
 
 # This is unique for each time the camera positions changed, we will use it for the entire experiment. redo it just with one frame in this script
-# -----  INPUT  -------
-exp = 80
 
+# -----  INPUT  -------
+
+# select experinemt to be processed 
+exp = 80
 
 batch_1_wild = False
 batch_2_wild = False
@@ -39,12 +84,12 @@ batch_2_hatchery = True
 # -----------------------
 
 # DO NOT CHANGE THESE!
-# RN shift left image by shift_x further to the right!!! Try to keep it low but the stones should somehow transition smoothly.
-# I came up with it because the selected fix point for stitching are in the gravel, the code therefore tries ti match the locations in the gravel, this results in mismatching stones
+# RN shift left image by shift_x further to the right!!! 
+
 shift_dx = 10 # Trade-off between matching gravel bed vs. large boulders
+
 # cut out central bright line. cut away dx_ pixel from the overlaying right edge of the left image
 dx_reduced_edge = 60
-
 
 exp_ID = 'exp_' + str(exp)
 M_filename = 'M_stitch_params.npy'
